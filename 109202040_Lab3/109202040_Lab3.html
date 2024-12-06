@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab3 Number Guessing Game</title>
+    <link rel="stylesheet" href="style.css"> <!-- 引入 External CSS -->
+</head>
+<body>
+    <h1>109202040_Lab3_Number Guessing Game</h1>
+    <div id="result"></div>
+
+    <script>
+        // 生成隨機數 1 到 99，確保不包含 0 和 100
+        let answer = Math.floor(Math.random() * 99) + 1;
+        let attempts = 7;
+
+        // 初始區間
+        let minRange = 0;
+        let maxRange = 100;
+
+        while (attempts > 0) {
+            let input = window.prompt(`請輸入一個數字（範圍: ${minRange} < 數字 < ${maxRange}），剩餘次數：${attempts}`);
+            
+            // 檢查是否為空或非數字
+            if (input === null || input.trim() === "" || isNaN(input)) {
+                alert("輸入無效！請輸入一個數字。");
+                continue;
+            }
+            
+            // 轉換為數字
+            let guess = Number(input);
+
+            // 檢查範圍並排除 0 和 100
+            if (guess <= minRange || guess >= maxRange) {
+                alert(`請輸入 ${minRange} 到 ${maxRange} 之間的數字，且不能為 0 或 100！`);
+                continue;
+            }
+
+            // 猜測邏輯
+            if (guess === answer) {
+                alert("恭喜答對！");
+                document.getElementById("result").innerHTML = '<img src="correct.jpg" alt="Correct">';
+                break;
+            } else if (guess < answer) {
+                alert("太小了！");
+                minRange = Math.max(minRange, guess); // 更新最小區間
+            } else {
+                alert("太大了！");
+                maxRange = Math.min(maxRange, guess); // 更新最大區間
+            }
+
+            attempts--;
+
+            // 檢查是否用完次數
+            if (attempts === 0) {
+                alert(`遊戲結束！正確答案是：${answer}`);
+                document.getElementById("result").innerHTML = '<img src="wrong.jpg" alt="Wrong">';
+            }
+        }
+    </script>
+</body>
+</html>
